@@ -5,8 +5,382 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StoreSystem"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Pos System"  Height="640" MinHeight="480" MinWidth="1100" Width="1100"   WindowState="Maximized" Icon="resource/icons8-small-business-80.png" FontSize="16" WindowStyle="SingleBorderWindow">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" >
+            <MenuItem Header="File">
+                <MenuItem Header="Exit" x:Name="ExitMenu" Click="exitProgram"  />
+            </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="ข้อมูลร้าน" Click="changeStroreName"  >
+                    <MenuItem.Icon>
+                        <Image Source="resource/icons8-small-business-80.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="About">
+                <MenuItem Header="ติดต่อผู้พัฒนาโปรเเกรม" Click="contactMe" >
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid Background="#FFDADADA" >
+            <TabControl Margin="10">
+                <TabItem Header="ขายสินค้า" FontSize="20">
+                    <Grid Background="#FFE5E5E5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="90"/>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="190" />
+                            <ColumnDefinition Width="190" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Content="รหัสสินค้า(บาร์โค้ด)" FontSize="20" Margin="0,16,10,16" Grid.ColumnSpan="2" />
+                        <TextBox x:Name="barcodeId" Grid.Column="2"   FontSize="24" Height="40" Width="200" Grid.ColumnSpan="2" HorizontalAlignment="Left" MaxLength="13" Margin="0,15"/>
+                        <Button x:Name="addToChart_bt" Content="เพิ่ม" Grid.Column="3" FontSize="20" Height="40" MinWidth="80"  Click="addToChart" HorizontalAlignment="Left" Width="80" Margin="0,15"/>
+                        <Button x:Name="saveList_bt" Content="บันทึกเเละพิมพ์สลิป" Grid.Column="4" FontSize="20" Height="50" Width="175"  Margin="0,10,5,10" HorizontalAlignment="Right" Click="saveSell" />
+                        <Button x:Name="saveAndExport_bt" Content="บันทึกเเละพิมพ์ใบเสร็จ" Grid.Column="5" FontSize="20" Width="175" Height="50"  Margin="0,10,5,10" HorizontalAlignment="Right" Click="saveSellAndExport" />
+                        <Button x:Name="ExportPreviousBill" Content="พิมพ์ใบเสร็จย้อนหลัง" Grid.Column="6" FontSize="20" Width="175" Height="50"  Margin="0,10,7.5,10" HorizontalAlignment="Right" Click="exportPreviousBill_func" />
+                        <Label Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Content="ชื่อสินค้า" FontSize="20" Margin="0,0,10,0" />
+                        <TextBlock Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" x:Name="pNameAdd" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center" Text="ยังไม่มีรายการ" FontSize="20"  />
+                        <StackPanel Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3" Orientation="Horizontal"  VerticalAlignment="Center" Margin="50,0" >
+                            <Label Content="ราคา" FontSize="20"/>
+                            <Label x:Name="productPrice" Content="0" FontSize="20" Margin="50,0,0,0" />
+                            <Label Content="บาท" FontSize="20" Margin="50,0,0,0" />
+                        </StackPanel>
+                        <DataGrid   ItemsSource="{Binding}"  AutoGenerateColumns="False" Grid.Row="2" Grid.ColumnSpan="7" Name="dataSellProduct" Margin="5,10,5,10" IsReadOnly="True"
+                               RowBackground="LightGray" AlternatingRowBackground="WhiteSmoke" FontSize="20" MouseDoubleClick="changeNumber">
+                            <DataGrid.Columns >
+                                <DataGridTextColumn MinWidth="150" MaxWidth="160" Header="รหัสสินค้า" Binding="{Binding รหัสสินค้า}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="250" Width="*" Header="ชื่อสินค้า" Binding="{Binding ชื่อสินค้า}" />
+                                <DataGridTextColumn MinWidth="200" Width="*" Header="รายละเอียด" Binding="{Binding รายละเอียด}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="80" Width="Auto" Header="จำนวน" Binding="{Binding จำนวน}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="80" Width="Auto" Header="หน่วยนับ" Binding="{Binding หน่วยนับ}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="80" Width="Auto" Header="ราคาขาย" Binding="{Binding ราคาขาย}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="80" Width="Auto" Header="รวมราคา" Binding="{Binding รวมราคา}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="3" Orientation="Horizontal" Grid.ColumnSpan="3">
+                            <Button x:Name="clearChart_bt" Content="ล้างรายการ" Margin="5.5,0,0,0" FontSize="20" Height="35" MinWidth="100"  HorizontalAlignment="Left" VerticalAlignment="Center" VerticalContentAlignment="Top" Click="clearChart"/>
+                            <Button x:Name="deleteRowChart_bt" Content="ลบรายการ" Margin="7,0,0,0" FontSize="20" Height="35" MinWidth="100"  HorizontalAlignment="Left" VerticalAlignment="Center" Click="deleteRowChart"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="5" Orientation="Horizontal" Grid.ColumnSpan="3"/>
+                        <StackPanel Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Right"  VerticalAlignment="Top" >
+                            <Label  Content="ภาษีมูลค่าเพิ่ม" FontSize="20"/>
+                            <TextBox x:Name="vat" Text="7" FontSize="20" Margin="40,0,0,0" Width="180" MaxLength="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyUp="change_vat"/>
+                            <Label Content="%" FontSize="20" Margin="66.5,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Right"  VerticalAlignment="Top" >
+                            <Label  Content="รวมราคารวม" FontSize="20"/>
+                            <Label x:Name="sumProductPrice" Content="0" FontSize="20" Margin="40,0,0,0" Width="180" HorizontalContentAlignment="Center" />
+                            <Label Content="บาท" FontSize="20" Margin="50,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,0,6,0" HorizontalAlignment="Right"  VerticalAlignment="Top" >
+                            <Label  Content="รับเงินมา" FontSize="20"/>
+                            <TextBox x:Name="textPriceInput" FontSize="20" Margin="40,0,0,0" Width="180" KeyUp="textPriceInput_KeyUp" MaxLength="10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            <Label Content="บาท" FontSize="20" Margin="50,0,0,0" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="3" Orientation="Horizontal" Margin="0,0,6,0" HorizontalAlignment="Right"  VerticalAlignment="Top" >
+                            <Label Content="เงินทอน" FontSize="20" />
+                            <Label x:Name="textReturnPrice" Content="0" FontSize="20" Margin="40,0,0,0" Width="180" HorizontalContentAlignment="Center"/>
+                            <Label Content="บาท" FontSize="20" Margin="50,0,0,0" />
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="คลังสินค้า" FontSize="20">
+                    <Grid Background="#FFE5E5E5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70" />
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="AddProduct" Content="เพิ่มสินค้า" Grid.Column="0" FontSize="20" Height="50"  Margin="7.5,5,10,5" Click="showAddProductWindow"/>
+                        <Button x:Name="EditProduct" Content="อัพเดตสินค้า" Grid.Column="1" FontSize="20" Height="50"  Margin="10,5,10,5" Click="showEditProductWindow"/>
+                        <Button x:Name="DeleteProduct" Content="ลบสินค้า" Grid.Column="2" FontSize="20"   Height="50"  Margin="10,5,10,5" Click="showConfirmDeleteDialog"/>
+                        <Button x:Name="UpdateTypeProduct" Content="อัพเดตประเภทสินค้า" Grid.Column="3" FontSize="20"  Height="50"  Margin="10,5,10,5" Click="showUpdateTypeWindow" />
+                        <Button x:Name="genBarcode_bt" Content="สร้างบาร์โค้ด" Grid.Column="4" FontSize="20"  Height="50"  Margin="10,5,7.5,5" Click="createBarcode" />
+                        <GroupBox  Grid.Row="1" Grid.ColumnSpan="5" Header="ค้นหาสินค้า"  Margin="5,5,5,5" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="122" />
+                                </Grid.ColumnDefinitions>
+                                <Label Content="ประเภทสินค้า" FontSize="20" Grid.Column="0" Margin="5,5,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <ComboBox x:Name="type_cb" Grid.Column="1" MinWidth="250" MaxWidth="350" FontSize="20" Margin="5,5,5,5" Height="40" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="searchProductByType" />
+                                <Label  Grid.Column="3" Content="รหัสสินค้า" Margin="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="20" />
+                                <TextBox x:Name="idText" FontSize="24" Grid.Column="4"  MaxLength="13"  MinWidth="250" MaxWidth="350"  Margin="5" Height="40" VerticalContentAlignment="Center" />
+                                <Button Grid.Column="5" Content="ค้นหา"  Margin="5" FontSize="20" Click="searchProductById"  Height="40"/>
+                            </Grid>
+                        </GroupBox>
+                        <DataGrid   ItemsSource="{Binding}"  AutoGenerateColumns="False" Grid.Row="2" Grid.ColumnSpan="5" Name="dataProduct" Margin="5,10,5,10" IsReadOnly="True"
+                               RowBackground="LightGray" AlternatingRowBackground="WhiteSmoke">
+                            <DataGrid.Columns >
+                                <DataGridTextColumn MinWidth="150" MaxWidth="160" Header="รหัสสินค้า" Binding="{Binding รหัสสินค้า}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="220" Width="*" Header="ชื่อสินค้า" Binding="{Binding ชื่อสินค้า}" />
+                                <DataGridTextColumn MinWidth="200" Width="*" Header="รายละเอียด" Binding="{Binding รายละเอียด}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="80" Width="Auto" Header="คงเหลือ" Binding="{Binding คงเหลือ}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="80" Width="Auto" Header="หน่วยนับ" Binding="{Binding หน่วยนับ}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="80" Width="Auto" Header="ราคาทุน" Binding="{Binding ราคาทุน}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="80" Width="Auto" Header="ราคาขาย" Binding="{Binding ราคาขาย}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="150" Width="Auto" Header="ประเภท" Binding="{Binding ประเภท}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="ดูยอดขาย" FontSize="20">
+                    <Grid Background="#FFE5E5E5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="60"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox  Grid.RowSpan="3"  Header="เลือกช่วงเวลา" Width="250" Margin="20" HorizontalAlignment="Center">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="200"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="60"/>
+                                </Grid.RowDefinitions>
+                                <Calendar  HorizontalAlignment="Left"  VerticalAlignment="Center" Name="calenderReport" DisplayMode="Month" SelectionMode="SingleRange"   Height="168" Margin="30,16,0,17" Width="178" SelectedDatesChanged="clickDate" DisplayModeChanged="changMode" PreviewMouseUp="mouseUp"  />
+                                <RadioButton x:Name="seeDay" Grid.Row="1" HorizontalAlignment="Left" Margin="35,0,0,0"  VerticalAlignment="Top"  VerticalContentAlignment="Center" Content="ดูข้อมูลรายวัน" HorizontalContentAlignment="Left"  FontSize="16" Checked="seeInDay" Width="119"/>
+                                <RadioButton x:Name="seeMount"  Grid.Row="2" HorizontalAlignment="Left" Margin="35,0,0,0"   VerticalAlignment="Top" VerticalContentAlignment="Center" Content="ดูข้อมูลรายเดือน" HorizontalContentAlignment="Left"  FontSize="16" Checked="seeInMount" Width="119" />
+                                <RadioButton x:Name="seeYear"  Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="35,0,0,0"  VerticalContentAlignment="Center" Content="ดูข้อมูลรายปี" HorizontalContentAlignment="Left"  FontSize="16" Checked="seeInYear" Width="97" />
+                                <Button Grid.Row="5" Height="45" Content="พิมพ์ขอมูล" VerticalAlignment="Top" Margin="0,0,0,0"  x:Name="Export_tb" Click="ExportData" HorizontalAlignment="Center" Width="170"/>
+                            </Grid>
+                        </GroupBox>
+                        <Label Grid.Row="0" Grid.Column="1" FontSize="20" Content="วันที่" Margin="20,20,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="headerDate"/>
+                        <DataGrid   ItemsSource="{Binding}"  AutoGenerateColumns="False" Grid.Row="1" Name="reportData" Margin="20,0,20,20" IsReadOnly="True"
+                               RowBackground="LightGray" AlternatingRowBackground="WhiteSmoke" FontSize="20" Grid.Column="1" >
+                            <DataGrid.Columns >
+                                <DataGridTextColumn MinWidth="150" Width="*" Header="ชื่อสินค้า" Binding="{Binding ชื่อสินค้า}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="100" Width="Auto" Header="จำนวนขาย" Binding="{Binding จำนวนที่ขายได้}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="150" Width="Auto" Header="เงินจากการขาย" Binding="{Binding เงินที่ได้}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn MinWidth="150" Width="Auto" Header="กำไร" Binding="{Binding กำไรที่ได้}" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,5,0" HorizontalAlignment="Right"  VerticalAlignment="Top" >
+                            <Label  Content="รายได้สุทธิรวมทั้งสิ้น" FontSize="20"/>
+                            <Label x:Name="sumProfit" Content="0" FontSize="20" Margin="40,0,0,0" Width="180" HorizontalContentAlignment="Center" />
+                            <Label Content="บาท" FontSize="20" Margin="0,0,20,0" />
+                        </StackPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
 </Window>

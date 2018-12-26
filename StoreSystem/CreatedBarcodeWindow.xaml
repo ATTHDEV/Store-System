@@ -1,0 +1,32 @@
+﻿<Window x:Class="StoreSystem.CreatedBarcodeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StoreSystem"
+        mc:Ignorable="d"
+        Title="สร้างบาร์โค้ด" Height="350" Width="400" Icon="resource/icons8-small-business-80.png" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Background="#FFDADADA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="70" />
+            <RowDefinition Height="70" />
+            <RowDefinition Height="70" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label  Grid.Column="0" Content="รหัสสินค้า" Margin="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" />
+        <TextBox x:Name="id" Height="30" Width="200" FontSize="24" Grid.Column="1"  MaxLength="13" Margin="5" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"/>
+        <Label  Grid.Column="0" Grid.Row="1" Content="จำนวน" Margin="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" />
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+            <TextBox x:Name="len"  Margin="0,10,0,10" Height="30" Width="140" FontSize="16"  />
+            <Button x:Name="incLen" Content="+" Width="30" Height="30" Click="incCopy"/>
+            <Button x:Name="decLen" Content="-" Width="30" Height="30" Click="decCopy"/>
+        </StackPanel>
+        <StackPanel  Grid.Row="3" Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" />
+        <Button Grid.Row="2" Grid.ColumnSpan="2" Width="100" Height="40" Margin="5" FontSize="16"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="สร้าง" Click="Button_Click_1"/>
+        <Button Grid.Row="3" Grid.ColumnSpan="2" Width="100" Height="40" Margin="5" FontSize="16"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="สร้างทั้งหมด" Click="Button_Click"/>
+    </Grid> 
+</Window>

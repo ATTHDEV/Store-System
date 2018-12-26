@@ -1,0 +1,58 @@
+﻿<Window x:Class="StoreSystem.EditProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StoreSystem"
+        mc:Ignorable="d"
+        Title="อัพเดตสินค้า" Icon="resource/icons8-small-business-80.png" Height="660" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" >
+    <Grid Background="#FFDADADA">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Header="อัพเดตข้อมูลสินค้า" Margin="5,20,5,0"  FontSize="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Content="รหัสสินค้า" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                <Label  x:Name="pId"  Grid.Column="1" Margin="0,10,20,10" Height="30" Width="200" HorizontalContentAlignment="Center" VerticalAlignment="Center" Content="001" FontSize="16"/>
+                <Label Content="ชื่อสินค้า"  Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                <TextBox x:Name="name" Grid.Row="1" Grid.Column="1" Margin="0,10,20,10" Height="30" Width="200" FontSize="16" />
+                <Label Content="รายละเอียด" Grid.Row="2"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                <TextBox x:Name="detial"  Grid.Row="2" Grid.Column="1" Margin="0,10,20,10" Height="30" Width="200" FontSize="16" />
+                <Label Content="หน่วยนับ" Grid.Row="3"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                <TextBox x:Name="unit"  Grid.Row="3" Grid.Column="1" Margin="0,10,20,10" Height="30" Width="200" FontSize="16" />
+                <Label Content="ราคาทุน" Grid.Row="4"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                <TextBox x:Name="cost"  Grid.Row="4" Grid.Column="1" Margin="0,10,20,10" Height="30" Width="200" FontSize="16" />
+                <Label Content="ราคาขาย" Grid.Row="5"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                <TextBox x:Name="price"  Grid.Row="5" Grid.Column="1" Margin="0,10,20,10" Height="30" Width="200" FontSize="16" />
+                <Label Content="ประเภท" Grid.Row="6"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                <ComboBox x:Name="type" Grid.Row="6" Grid.Column="1" Margin="0,10,20,10" FontSize="16" Height="30" Width="200" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" >
+                    <ComboBoxItem>ไม้</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">หิน</ComboBoxItem>
+                    <ComboBoxItem>ปูน</ComboBoxItem>
+                </ComboBox>
+                <Label Content="จำนวน" Grid.Row="7"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" />
+                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1">
+                    <TextBox x:Name="len"  Margin="0,10,0,10" Height="30" Width="140" FontSize="16"  />
+                    <Button x:Name="incLen" Content="+" Width="30" Height="30" Click="incProductLen"/>
+                    <Button x:Name="decLen" Content="-" Width="30" Height="30" Click="decProductLen"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        <Button x:Name="Edit" Content="อัพเดต"  Grid.Row="1" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="50" Margin="0,20,0,0" Click="editProduct"/>
+    </Grid>
+</Window>
